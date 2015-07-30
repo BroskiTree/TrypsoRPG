@@ -13,7 +13,7 @@ public class Adventure {
 	int level;
 	int attackPwr;
 	
-	public Adventure(String name, String origJob, String job, String origLoc, int health, int money, int level, int attackPwr)
+	public Adventure(String name, String origJob, String job, String origLoc, int maxHealth, int curHealth, int money, int level, int attackPwr)
 	{
 		this.name = name;
 		this.origJob = origJob;
@@ -43,8 +43,8 @@ public class Adventure {
 	Enemy flareblood = new Enemy("Flareblood", 27, 10, 62);
 	Enemy vinefury = new Enemy("Vinefury", 31, 14, 75);
 	Enemy theDissector = new Enemy("The Dissector", 35, 18, 115);
-	Enemy embervine = new Enemy("Embervine", 40, 22, 150);
-	Enemy bloodbane = new Enemy("Bloodbane", 50, 34, 250);
+	Enemy embervine = new Enemy("Bloodbane", 40, 22, 150);
+	Enemy bloodbane = new Enemy("Embervine", 50, 34, 250);
 	Enemy kingSamuelIV = new Enemy("King Samuel IV", 75, 42, 1000);
 	
 	Enemy[] enemies = new Enemy[10];
@@ -107,11 +107,63 @@ public class Adventure {
 		Thread.sleep(1250);
 		System.out.println("Your level increase comes with a 5-health increase. Your health is now " + this.curHealth + ".");
 		System.out.println("");
-		Thread.sleep(2500);
+		Thread.sleep(4000);
 		System.out.println("Battle completed; taking you to Holbeck...");
 		System.out.println("");
 		Thread.sleep(2000);
 		this.CityCentreIntro();
+	}
+	}
+	
+	public void bloodbaneBattle(Enemy enemy) throws InterruptedException
+	{
+		System.out.println("---You have encountered " + enemy.getName() + " who has " + enemy.getHealth() + " health, " + enemy.getAttackPwr() + " attack power, and will drop " + enemy.getMoneyGained() + " dollars!");
+		boolean stillFighting = true;
+		while (this.curHealth > 0 && enemy.getHealth() > 0 && stillFighting)
+		{
+			System.out.println("---Enter 'A' to attack, or 'R' to run away!");
+			String userInput = scan.nextLine();
+			
+			if (userInput.equals("a") || userInput.equals("A"))
+			{
+				this.curHealth = this.curHealth - enemy.getAttackPwr();
+				enemy.setHealth(enemy.getHealth() - this.attackPwr);
+				System.out.println("---After that attack, your health is now " + this.curHealth + ", and " + enemy.getName() + "'s health is now " + enemy.getHealth() + ".");
+			}
+			else if (userInput.equals("r") || userInput.equals("R"))
+			{
+				System.out.println("You have run away back to Holbeck.");
+				stillFighting = false;
+				this.CityCentreIntro();
+			}
+			else
+			{
+				System.out.println("That is not a valid response.");
+			}
+			
+		}
+	this.level = this.level + 1;
+	
+	if (this.curHealth <= 0)
+	{
+		System.out.println("You have died!");
+	}
+	else if (enemy.getHealth() <= 0)
+	{
+		this.money = this.money + enemy.getMoneyGained();
+		this.curHealth = this.curHealth + 10;
+		System.out.println("---Congratulations, you just beat " + enemy.getName() + "!");
+		Thread.sleep(1500);
+		System.out.println("You are now level " + this.level + ", and have " + this.money + " dollars.");
+		this.maxHealth = this.maxHealth + 5;
+		this.curHealth = this.maxHealth;
+		Thread.sleep(1250);
+		System.out.println("Your level increase comes with a 5-health increase. Your health is now " + this.curHealth + ".");
+		System.out.println("");
+		Thread.sleep(4000);
+		System.out.println("Battle completed.");
+		System.out.println("");
+		Thread.sleep(2000);
 	}
 	}
 	
@@ -162,23 +214,32 @@ public class Adventure {
 		System.out.println("");
 		Thread.sleep(7000);
 		System.out.println("The End.");
+		Thread.sleep(3000);
+		String userInput8 = scan.nextLine();
+		if (userInput8.equalsIgnoreCase("Yes") || userInput8.equalsIgnoreCase("Y"))
+		{
+			this.CityCentre();
+		}
+		else if (userInput8.equalsIgnoreCase("No") || userInput8.equalsIgnoreCase("N"))
+		{
 		Thread.sleep(2000);
 		System.out.println("Thanks for playing!");
 		Thread.sleep(3000);
 		System.out.println("Created by Will Easley");
 		Thread.sleep(7000);
 		System.exit(0);
+		}
 	}
 	}
 	
 	public void CityCentreIntro() throws InterruptedException
 	{
 		System.out.println("Welcome to Holbeck, the capital and main hub of Trypso.");
-		Thread.sleep(1250);
+		Thread.sleep(3000);
 		System.out.println("Here you can check your money, upgrade your level or health, or go to different parts of Trypso.");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		System.out.println("You will also come here after completing every battle to level up and check your money.");
-		Thread.sleep(2500);
+		Thread.sleep(4500);
 		this.CityCentre();
 	}
 	
@@ -352,7 +413,8 @@ public class Adventure {
 			System.out.println("Enter '1' to travel to Norton.");
 			System.out.println("Enter '2' to travel to Azmarin.");
 			System.out.println("Enter '3' to travel to Zalfari.");
-			System.out.println("Enter '4' to travel to Tergaron.");
+			System.out.println("Enter '4' to travel to Ascot.");
+			System.out.println("Enter '5' to travel to Tergaron.");
 			System.out.println("");
 			System.out.println("Enter 'M' to go back.");
 			
@@ -376,6 +438,12 @@ public class Adventure {
 				this.Zalfari();
 			}
 			else if (userInput5.equals("4"))
+			{
+				System.out.println("Travelling...");
+				Thread.sleep(5500);
+				this.Ascot();
+			}
+			else if (userInput5.equals("5"))
 			{
 				System.out.println("Travelling...");
 				Thread.sleep(5500);
@@ -405,17 +473,17 @@ public class Adventure {
 	public void Norton() throws InterruptedException
 	{
 		System.out.println("Welcome to Norton, a smaller city in Trypso.");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		System.out.println("People are walking through the gravel streets, carrying grocery and goods to and from.");
-		Thread.sleep(3500);
+		Thread.sleep(5000);
 		System.out.println("After lingering for some time, a civilian tells you of an ancient creature who lingers in the forest.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("'Men have been trying to kill it for years,' they tell you. 'All the men we send never come back.'");
-		Thread.sleep(3500);
+		Thread.sleep(5000);
 		System.out.println("You tell them you will slay it. You run into the woods, attempting to find it.");
-		Thread.sleep(4000);
+		Thread.sleep(5000);
 		System.out.println("You come across a small camp, with a torch burning, and bones of various animals scattered outside.");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		System.out.println("You slowly approach, and open the door. Inside, the Chainthorn sits.");
 		this.battle(this.chainthorn);
 	}
@@ -423,67 +491,86 @@ public class Adventure {
 	public void Azmarin() throws InterruptedException
 	{
 		System.out.println("Azmarin, a tiny town in Trypso, is crumbling.");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		System.out.println("The Dissector is invading the city, destroying homes and killing rampantly.");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		System.out.println("You must kill it and defend the town and its people.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("Careful, though, The Dissector has a high health and attack power, make sure you are prepared.");
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 		this.battle(this.theDissector);
 	}
 	
 	public void Zalfari() throws InterruptedException
 	{
 		System.out.println("Zalfari, a Flareblood colony, has a small population and is hidden away so as not to be raided.");
-		Thread.sleep(3500);
+		Thread.sleep(5000);
 		System.out.println("You appear in the middle of the colony, and start running as soon as you get there.");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		System.out.println("They run after you, but most give up. One continues after you though, and tackles you not far from the colony.");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		this.battle(this.flareblood);
+	}
+	
+	public void Ascot() throws InterruptedException
+	{
+		System.out.println("Ascot is a small fishing village on the shore of one of Trypso's many oceans.");
+		Thread.sleep(6000);
+		System.out.println("You notice, however, that it has been taken over by Bloodbanes.");
+		Thread.sleep(6000);
+		System.out.println("One of them swarms on you.");
+		this.bloodbaneBattle(this.bloodbane);
+		Thread.sleep(4000);
+		System.out.println("You try to run, but another one attacks you.");
+		this.bloodbaneBattle(this.bloodbane);
+		Thread.sleep(4000);
+		System.out.println("You finally leave the town, escaping, but you run into one more walking back into the town.");
+		Thread.sleep(5500);
+		this.battle(this.bloodbane);
+		
+		
 	}
 	
 	public void Tergaron() throws InterruptedException
 	{
 		System.out.println("Tergaron, the city surrounding the King's castle, is a bustling hotspot, the second-biggest city behind Holbeck.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("The castle, magnificent and enormous, weighs over the rest of the city and its citizens from a tall hill in the middle of the city.");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		System.out.println("You talk to some of the citizens, who tell you of the King's evil ways. Plans to overthrow or even kill him run rampant in the streets.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("They ask you, a " + this.job + ", to use your wisdom and fighting power to assassinate him.");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		System.out.println("You refuse at first, but they insist.");
-		Thread.sleep(3500);
+		Thread.sleep(5000);
 		System.out.println("After much consideration, you decide to give in and risk your life for the good of the citizens.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("The king has a large intolerance to pain and advanced fighting skills, so if a battle ensues, you must be ready.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("At night, you sneak past the guard at his post and onto the property of the castle.");
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 		System.out.println("The grounds are quiet. All are asleep.");
-		Thread.sleep(4000);
+		Thread.sleep(5000);
 		System.out.println("You get in through a window, and climb the stairs.");
-		Thread.sleep(1500);
+		Thread.sleep(5000);
 		System.out.println("The King lives alone, aside from his servants, so you move quietly, but quickly.");
-		Thread.sleep(3500);
+		Thread.sleep(5000);
 		System.out.println("You come to the door to his bedroom, and listen closely. Not a peep.");
-		Thread.sleep(1500);
+		Thread.sleep(5000);
 		System.out.println("You slowly open the door, but the King is sitting up in bed, waiting for you.");
-		Thread.sleep(4000);
+		Thread.sleep(5000);
 		System.out.println("He heard you.");
-		Thread.sleep(1500);
+		Thread.sleep(5000);
 		System.out.println("'How may I assist you, good sir?'");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		System.out.println("You say nothing.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("'You've come to kill me, haven't you?'");
-		Thread.sleep(1500);
+		Thread.sleep(5000);
 		System.out.println("'For being cruel to my citizens? Did they brainwash you too?'");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		System.out.println("You pull out your weapon, not backing down.");
-		Thread.sleep(2500);
+		Thread.sleep(5000);
 		System.out.println("'I suppose it must be this way. You won't kill me without a fight. Impress me.'");
 		this.kingBattle(kingSamuelIV);
 	}	
