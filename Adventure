@@ -1,0 +1,601 @@
+import java.util.Scanner;
+
+
+public class Adventure {
+	
+	String name;
+	String origJob;
+	String job;
+	String origLoc;
+	int curHealth;
+	int maxHealth;
+	int money;
+	int level;
+	int attackPwr;
+	
+	public Adventure(String name, String origJob, String job, String origLoc, int health, int money, int level, int attackPwr)
+	{
+		this.name = name;
+		this.origJob = origJob;
+		this.job = job;
+		this.origLoc = origLoc;
+		this.maxHealth = maxHealth;
+		this.curHealth = curHealth;
+		this.money = money;
+		this.level = level;
+		this.attackPwr = attackPwr;	
+	}	
+	
+	public Adventure() 
+	{
+		this.curHealth = 100;
+		this.maxHealth = 100;
+		this.attackPwr = 5;
+		this.money = 15;
+		this.level = 1;		
+	}
+	static String userInput;
+	static Scanner scan = new Scanner(System.in);
+	Enemy boar = new Enemy("Boar", 7, 3, 0);
+	Enemy bonesnatch = new Enemy("Bonesnatch", 13, 7, 45);
+	Enemy slyskull = new Enemy("Slyskull", 18, 9, 55); 
+	Enemy chainthorn = new Enemy("Chainthorn", 22, 8, 49);
+	Enemy flareblood = new Enemy("Flareblood", 27, 10, 62);
+	Enemy vinefury = new Enemy("Vinefury", 31, 14, 75);
+	Enemy theDissector = new Enemy("The Dissector", 35, 18, 115);
+	Enemy embervine = new Enemy("Embervine", 40, 22, 150);
+	Enemy bloodbane = new Enemy("Bloodbane", 50, 34, 250);
+	Enemy kingSamuelIV = new Enemy("King Samuel IV", 75, 42, 1000);
+	
+	Enemy[] enemies = new Enemy[10];
+	{
+	enemies[0] = boar;
+	enemies[1] = bonesnatch;
+	enemies[2] = slyskull;
+	enemies[3] = chainthorn;
+	enemies[4] = flareblood;
+	enemies[5] = vinefury;
+	enemies[6] = theDissector;
+	enemies[7] = embervine;
+	enemies[8] = bloodbane;
+	enemies[9] = kingSamuelIV;
+	}
+	
+	
+	public void battle(Enemy enemy) throws InterruptedException
+	{
+		System.out.println("---You have encountered " + enemy.getName() + " who has " + enemy.getHealth() + " health, " + enemy.getAttackPwr() + " attack power, and will drop " + enemy.getMoneyGained() + " dollars!");
+		boolean stillFighting = true;
+		while (this.curHealth > 0 && enemy.getHealth() > 0 && stillFighting)
+		{
+			System.out.println("---Enter 'A' to attack, or 'R' to run away!");
+			String userInput = scan.nextLine();
+			
+			if (userInput.equals("a") || userInput.equals("A"))
+			{
+				this.curHealth = this.curHealth - enemy.getAttackPwr();
+				enemy.setHealth(enemy.getHealth() - this.attackPwr);
+				System.out.println("---After that attack, your health is now " + this.curHealth + ", and " + enemy.getName() + "'s health is now " + enemy.getHealth() + ".");
+			}
+			else if (userInput.equals("r") || userInput.equals("R"))
+			{
+				System.out.println("You have run away back to Holbeck.");
+				stillFighting = false;
+				this.CityCentre();
+			}
+			else
+			{
+				System.out.println("That is not a valid response.");
+			}
+			
+		}
+	this.level = this.level + 1;
+	
+	if (this.curHealth <= 0)
+	{
+		System.out.println("You have died!");
+	}
+	else if (enemy.getHealth() <= 0)
+	{
+		this.money = this.money + enemy.getMoneyGained();
+		this.curHealth = this.curHealth + 10;
+		System.out.println("---Congratulations, you just beat " + enemy.getName() + "!");
+		Thread.sleep(1500);
+		System.out.println("You are now level " + this.level + ", and have " + this.money + " dollars.");
+		this.maxHealth = this.maxHealth + 5;
+		this.curHealth = this.maxHealth;
+		Thread.sleep(1250);
+		System.out.println("Your level increase comes with a 5-health increase. Your health is now " + this.curHealth + ".");
+		System.out.println("");
+		Thread.sleep(2500);
+		System.out.println("Battle completed; taking you to Holbeck...");
+		System.out.println("");
+		Thread.sleep(2000);
+		this.CityCentre();
+	}
+	}
+	
+	public void kingBattle(Enemy enemy) throws InterruptedException
+	{
+		System.out.println("---You have encountered " + enemy.getName() + " who has " + enemy.getHealth() + " health, " + enemy.getAttackPwr() + " attack power, and will drop " + enemy.getMoneyGained() + " dollars!");
+		boolean stillFighting = true;
+		while (this.curHealth > 0 && enemy.getHealth() > 0 && stillFighting)
+		{
+			System.out.println("---Enter 'A' to attack, or 'R' to run away!");
+			String userInput = scan.nextLine();
+			
+			if (userInput.equals("a") || userInput.equals("A"))
+			{
+				this.curHealth = this.curHealth - enemy.getAttackPwr();
+				enemy.setHealth(enemy.getHealth() - this.attackPwr);
+				System.out.println("---After that attack, your health is now " + this.curHealth + ", and " + enemy.getName() + "'s health is now " + enemy.getHealth() + ".");
+			}
+			else if (userInput.equals("r") || userInput.equals("R"))
+			{
+				System.out.println("You have run away back to Holbeck.");
+				stillFighting = false;
+				this.CityCentre();
+			}
+			else
+			{
+				System.out.println("That is not a valid response.");
+			}
+			
+		}
+	this.level = this.level + 5;
+	
+	if (this.curHealth <= 0)
+	{
+		System.out.println("You have died!");
+	}
+	else if (enemy.getHealth() <= 0)
+	{
+		this.money = this.money + enemy.getMoneyGained();
+		this.curHealth = this.curHealth + 10;
+		System.out.println("---Congratulations, you just beat " + enemy.getName() + "!");
+		Thread.sleep(1500);
+		System.out.println("You are now level " + this.level + ", and have " + this.money + " dollars.");
+		this.maxHealth = this.maxHealth + 5;
+		this.curHealth = this.maxHealth;
+		Thread.sleep(1250);
+		System.out.println("Your 5-level increase comes with a 25-health increase. Your health is now " + this.curHealth + ".");
+		System.out.println("");
+		Thread.sleep(7000);
+		System.out.println("The End.");
+		Thread.sleep(2000);
+		System.out.println("Thanks for playing!");
+		Thread.sleep(3000);
+		System.out.println("Created by Will Easley");
+		Thread.sleep(7000);
+		System.exit(0);
+	}
+	}
+	
+	
+	public void CityCentre() throws InterruptedException
+	{
+		System.out.println("Welcome to Holbeck, the capital and main hub of Trypso.");
+		Thread.sleep(1250);
+		System.out.println("Here you can check your money, upgrade your level or health, or go to different parts of Trypso.");
+		Thread.sleep(2000);
+		System.out.println("You will also come here after completing every battle to level up and check your money.");
+		Thread.sleep(2500);
+		boolean stillChoosing4 = true;
+		while (stillChoosing4)
+		{
+		System.out.println("Enter 'M' to check your money, 'U' to view upgrades, and 'T' to view your travel options.");
+		userInput = scan.nextLine();
+		if (userInput.equals("M") || userInput.equals("m"))
+		{
+			System.out.println("$" + this.money);
+		}
+		else if (userInput.equals("U") || userInput.equals("u"))
+		{
+			System.out.println("Enter 'H' to view health upgrades.");
+			System.out.println("Enter 'L' to view level upgrades.");
+			System.out.println("Enter 'A' to view attack level upgrades.");
+			System.out.println("");
+			System.out.println("Press 'M' to go back.");
+			String userInput = scan.nextLine();
+			
+			if (userInput.equalsIgnoreCase("H"))
+			{
+				System.out.println("$15 for 5 health upgrade. -- Enter '1'");
+				System.out.println("$25 for 10 health upgrade -- Enter '2'");
+				System.out.println("$35 for 15 health upgrade -- Enter '3'");
+				System.out.println("$45 for 20 health upgrade -- Enter '4'");
+				System.out.println("");
+				System.out.println("You have " + this.money + " dollars.");
+				
+				String userInput2 = scan.nextLine();
+				if (userInput2.equals("1"))
+				{
+					this.money = this.money - 15;
+					this.maxHealth = this.maxHealth + 5;
+					this.curHealth = this.maxHealth;
+					System.out.println("Transaction successful, your max health is now " + this.maxHealth + ".");
+					stillChoosing4 = false;
+				}
+				else if (userInput2.equals("2"))
+				{
+					this.money = this.money - 25;
+					this.maxHealth = this.maxHealth + 10;
+					this.curHealth = this.maxHealth;
+					System.out.println("Transaction successful, your max health is now " + this.maxHealth + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else if (userInput2.equals("3"))
+				{
+					this.money = this.money - 35;
+					this.maxHealth = this.maxHealth + 15;
+					this.curHealth = this.maxHealth;
+					System.out.println("Transaction successful, your max health is now " + this.maxHealth + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+
+				}
+				else if (userInput2.equals("4"))
+				{
+					this.money = this.money - 45;
+					this.maxHealth = this.maxHealth + 20;
+					this.curHealth = this.maxHealth;
+					System.out.println("Transaction successful, your max health is now " + this.maxHealth + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else
+				{
+					System.out.println("That is not a valid response.");
+				}
+				
+				
+			}
+			else if (userInput.equalsIgnoreCase("L"))
+			{
+				System.out.println("$10 for a 1 level upgrade -- Enter '1'");
+				System.out.println("$25 for a 2 level upgrade -- Enter '2'");
+				System.out.println("$35 for a 3 level upgrade -- Enter '3'");
+				System.out.println("$50 for a 4 level upgrade -- Enter '4'");
+				System.out.println("");
+				System.out.println("You have " + this.money + " dollars.");
+				String userInput3 = scan.nextLine();
+				
+				if (userInput3.equals("1"))
+				{
+					this.money = this.money - 10;
+					this.level = this.level + 1;
+					System.out.println("Transaction successful, your level is now " + this.level + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else if (userInput3.equals("2"))
+				{
+					this.money = this.money - 25;
+					this.level = this.level + 2;
+					System.out.println("Transaction successful, your level is now " + this.level + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else if (userInput3.equals("3"))
+				{
+					this.money = this.money - 35;
+					this.level = this.level + 3;
+					System.out.println("Transaction successful, your level is now " + this.level + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else if (userInput3.equals("4"))
+				{
+					this.money = this.money - 50;
+					this.level = this.level + 4;
+					System.out.println("Transaction successful, your level is now " + this.level + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else
+				{
+					System.out.println("That is not a valid response.");
+				}
+			}
+			else if (userInput.equalsIgnoreCase("A"))
+			{
+				System.out.println("$25 for a 3 point attack power increase -- Enter '1'");
+				System.out.println("$35 for a 5 point attack power increase -- Enter '2'");
+				System.out.println("$80 for a 8 point attack power increase -- Enter '3'");
+				System.out.println("");
+				System.out.println("You have " + this.money + " dollars.");
+				String userInput4 = scan.nextLine();
+					
+				if (userInput4.equals("1"))
+				{
+					this.money = this.money - 25;
+					this.attackPwr = this.attackPwr + 3;
+					System.out.println("Transaction successful, your attack power is now " + this.attackPwr + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else if (userInput4.equals("2"))
+				{
+					this.money = this.money - 35;
+					this.attackPwr = this.attackPwr + 5;
+					System.out.println("Transaction successful, your attack power is now " + this.attackPwr + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else if (userInput4.equals("3"))
+				{
+					this.money = this.money - 80;
+					this.attackPwr = this.attackPwr + 8;
+					System.out.println("Transaction successful, your attack power is now " + this.attackPwr + ", and you have " + this.money + " dollars.");
+					stillChoosing4 = false;
+				}
+				else
+				{
+					System.out.println("That is not a valid response.");
+				}
+			}
+			
+		}
+		if (userInput.equalsIgnoreCase("T"))
+		{
+			System.out.println("Enter '1' to travel to Norton.");
+			System.out.println("Enter '2' to travel to Azmarin.");
+			System.out.println("Enter '3' to travel to Zalfari.");
+			System.out.println("Enter '4' to travel to Tergaron.");
+			System.out.println("");
+			System.out.println("Enter 'M' to go back.");
+			
+			String userInput5 = scan.nextLine();
+			if (userInput5.equals("1"))
+			{
+				System.out.println("Travelling...");
+				Thread.sleep(5500);
+				this.Norton();
+			}
+			else if (userInput5.equals("2"))
+			{
+				System.out.println("Travelling...");
+				Thread.sleep(5500);
+				this.Azmarin();
+			}
+			else if (userInput5.equals("3"))
+			{
+				System.out.println("Travelling...");
+				Thread.sleep(5500);
+				this.Zalfari();
+			}
+			else if (userInput5.equals("4"))
+			{
+				System.out.println("Travelling...");
+				Thread.sleep(5500);
+				this.Tergaron();
+			}
+			else
+			{
+				System.out.println("That is not a valid response.");
+			}
+		}
+		
+		else
+		{
+			System.out.println("That is not a valid response.");
+		}
+	}
+		
+}	
+	
+	public void Norton() throws InterruptedException
+	{
+		System.out.println("Welcome to Norton, a smaller city in Trypso.");
+		Thread.sleep(2000);
+		System.out.println("People are walking through the gravel streets, carrying grocery and goods to and from.");
+		Thread.sleep(3500);
+		System.out.println("After lingering for some time, a civilian tells you of an ancient creature who lingers in the forest.");
+		Thread.sleep(2500);
+		System.out.println("'Men have been trying to kill it for years,' they tell you. 'All the men we send never come back.'");
+		Thread.sleep(3500);
+		System.out.println("You tell them you will slay it. You run into the woods, attempting to find it.");
+		Thread.sleep(4000);
+		System.out.println("You come across a small camp, with a torch burning, and bones of various animals scattered outside.");
+		Thread.sleep(3000);
+		System.out.println("You slowly approach, and open the door. Inside, the Chainthorn sits.");
+		this.battle(this.chainthorn);
+	}
+	
+	public void Azmarin() throws InterruptedException
+	{
+		System.out.println("Azmarin, a tiny town in Trypso, is crumbling.");
+		Thread.sleep(2000);
+		System.out.println("The Dissector is invading the city, destroying homes and killing rampantly.");
+		Thread.sleep(3000);
+		System.out.println("You must kill it and defend the town and its people.");
+		Thread.sleep(2500);
+		System.out.println("Careful, though, The Dissector has a high health and attack power, make sure you are prepared.");
+		Thread.sleep(1000);
+		this.battle(this.theDissector);
+	}
+	
+	public void Zalfari() throws InterruptedException
+	{
+		System.out.println("Zalfari, a Flareblood colony, has a small population and is hidden away so as not to be raided.");
+		Thread.sleep(3500);
+		System.out.println("You appear in the middle of the colony, and start running as soon as you get there.");
+		Thread.sleep(3000);
+		System.out.println("They run after you, but most give up. One continues after you though, and tackles you not far from the colony.");
+		Thread.sleep(2000);
+		this.battle(this.flareblood);
+	}
+	
+	public void Tergaron() throws InterruptedException
+	{
+		System.out.println("Tergaron, the city surrounding the King's castle, is a bustling hotspot, the second-biggest city behind Holbeck.");
+		Thread.sleep(2500);
+		System.out.println("The castle, magnificent and enormous, weighs over the rest of the city and its citizens from a tall hill in the middle of the city.");
+		Thread.sleep(3000);
+		System.out.println("You talk to some of the citizens, who tell you of the King's evil ways. Plans to overthrow or even kill him run rampant in the streets.");
+		Thread.sleep(2500);
+		System.out.println("They ask you, a " + this.job + ", to use your wisdom and fighting power to assassinate him.");
+		Thread.sleep(3000);
+		System.out.println("You refuse at first, but they insist.");
+		Thread.sleep(3500);
+		System.out.println("After much consideration, you decide to give in and risk your life for the good of the citizens.");
+		Thread.sleep(2500);
+		System.out.println("The king has a large intolerance to pain and advanced fighting skills, so if a battle ensues, you must be ready.");
+		Thread.sleep(2500);
+		System.out.println("At night, you sneak past the guard at his post and onto the property of the castle.");
+		Thread.sleep(3000);
+		System.out.println("The grounds are quiet. All are asleep.");
+		Thread.sleep(4000);
+		System.out.println("You get in through a window, and climb the stairs.");
+		Thread.sleep(1500);
+		System.out.println("The King lives alone, aside from his servants, so you move quietly, but quickly.");
+		Thread.sleep(3500);
+		System.out.println("You come to the door to his bedroom, and listen closely. Not a peep.");
+		Thread.sleep(1500);
+		System.out.println("You slowly open the door, but the King is sitting up in bed, waiting for you.");
+		Thread.sleep(4000);
+		System.out.println("He heard you.");
+		Thread.sleep(1500);
+		System.out.println("'How may I assist you, good sir?'");
+		Thread.sleep(2000);
+		System.out.println("You say nothing.");
+		Thread.sleep(2500);
+		System.out.println("'You've come to kill me, haven't you?'");
+		Thread.sleep(1500);
+		System.out.println("'For being cruel to my citizens? Did they brainwash you too?'");
+		Thread.sleep(2000);
+		System.out.println("You pull out your weapon, not backing down.");
+		Thread.sleep(2500);
+		System.out.println("'I suppose it must be this way. You won't kill me without a fight. Impress me.'");
+		this.kingBattle(kingSamuelIV);
+	}	
+	
+	public static void main(String[] args) throws InterruptedException {
+		Adventure adventure = new Adventure();
+		
+		System.out.println("Welcome, stranger, to the world of Trypso, located in the Scora galaxy.");
+		Thread.sleep(1500);
+		System.out.println("What is your name, traveler?");
+		
+		adventure.name = scan.nextLine();
+		System.out.println("Where do you hail from, " + adventure.name + "?");
+		
+		adventure.origLoc = scan.nextLine();
+		System.out.println("Well, we're just glad to have you here.");
+		Thread.sleep(1500);
+		System.out.println("It appears that you have " + adventure.curHealth + " health, and " + adventure.money + " dollars.");
+		Thread.sleep(2000);
+		System.out.println("What did you do to earn your living before you arrived here?");
+		
+		adventure.origJob = scan.nextLine();
+		System.out.println("Well, unfortunately, " + adventure.name + ", we do not have that sort of job here on Trypso.");
+		Thread.sleep(1000);
+		System.out.println("You have three choices here on Trypso. You may be a warrior, a mage, or a rogue.");
+		Thread.sleep(1500);
+		System.out.println("So, " + adventure.name + ", what shall you choose for your future here?");
+		
+		boolean stillChoosing = true;
+		while (stillChoosing)
+		{
+			userInput = scan.nextLine();
+		if (userInput.equals("Warrior") || userInput.equals("warrior")) 
+		{
+			adventure.job = "Warrior";
+			adventure.maxHealth = 125;
+			adventure.curHealth = 125;
+			adventure.attackPwr = 8;
+			adventure.money = adventure.money + 50;
+			
+			System.out.println("Well, " + adventure.name + ", good choice picking warrior! Trypso always needs more of those.");
+			Thread.sleep(3500);
+			System.out.println("As a result, your health is now 125 and your attack power is now 8.");
+			Thread.sleep(2500);
+			System.out.println("You also have been given $50 for selecting a job. Good luck in the world of Trypso, " + adventure.name + " the " + adventure.job + ".");
+			stillChoosing = false;
+		}
+		else if (userInput.equals("Mage") || userInput.equals("mage"))
+		{
+			adventure.job = "Mage";
+			adventure.maxHealth = 200;
+			adventure.curHealth = 200;
+			adventure.attackPwr = 5;
+			adventure.money = adventure.money + 50;
+			
+			System.out.println("Well, " + adventure.name + ", good choice picking mage! Trypso always needs more of those.");
+			Thread.sleep(3500);
+			System.out.println("Because of your newfound magical abilities, your health is now 200 and your attack power is now 5.");
+			Thread.sleep(2500);
+			System.out.println("You also have been given $50 for selecting a job. Good luck in the world of Trypso, " + adventure.name + " the " + adventure.job + ".");
+			stillChoosing = false;
+		}
+		else if (userInput.equals("Rogue") || userInput.equals("rogue"))
+		{
+			adventure.job = "Rogue";
+			adventure.maxHealth = 165;
+			adventure.curHealth = 165;
+			adventure.attackPwr = 7;
+			adventure.money = adventure.money + 50;
+			
+			System.out.println("Well, " + adventure.name + ", interesting choice. I suppose Trypso could value more vagabonds.");
+			Thread.sleep(3500);
+			System.out.println("Because of your vast intelligence in fighting and stealing, your health is now 165 and your attack power is now 7.");
+			Thread.sleep(2500);
+			System.out.println("You also have been given $50 for selecting a job. Good luck in the world of Trypso, " + adventure.name + " the " + adventure.job + ".");
+			stillChoosing = false;
+		}
+		else
+		{
+			System.out.println("That is not a valid response, " + adventure.name + ". Please select warrior, mage, or rogue.");
+			
+		}
+		}
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		Thread.sleep(6000);
+		System.out.println("Welcome to the world of Trypso, " + adventure.name + ".");
+		Thread.sleep(4000);
+		System.out.println("You are on your own now. It is up to you to survive in this unknown terrain.");
+		Thread.sleep(5000);
+		System.out.println("You are standing in a field with long grass up to your waist.");
+		Thread.sleep(3000);
+		System.out.println("You can go into the small town on your left, or the thick forest on your right.");
+		Thread.sleep(2500);
+		System.out.println("Enter 'left' to go into the town, or enter 'right' to enter the forest.");
+		boolean stillChoosing1 = true;
+		while (stillChoosing1)
+		{
+			userInput = scan.nextLine();
+			userInput = userInput.toLowerCase();
+		if (userInput.equals("left"))
+			{
+				System.out.println("You walk into the city.");
+				stillChoosing1 = false;
+				Thread.sleep(1500);
+				System.out.println("It appears to be deserted.");
+				Thread.sleep(1750);
+				System.out.println("The streets are empty, houses ravaged. Who knows why there's no one around.");
+				Thread.sleep(2150);
+				System.out.println("You sense an ominous being around you. You check to make sure no one's following you, but you're alone.");
+				Thread.sleep(2500);
+				System.out.println("You shout 'Hello?', but the echo rings out and bounces back.");
+				Thread.sleep(2000);
+				adventure.battle(adventure.bonesnatch);
+				
+			}
+		else if (userInput.equals("right"))
+			{
+				System.out.println("You walk into the forest.");
+				stillChoosing1 = false;
+				Thread.sleep(1000);
+				System.out.println("Immediately you are greeted by the strong smell of sap.");
+				Thread.sleep(2500);
+				System.out.println("It's a very foggy day, so you can only see about 25 feet in front of you.");
+				Thread.sleep(2500);
+				System.out.println("You continue walking, trying to see your way through the fog and branches surrounding you.");
+				Thread.sleep(3000);
+				adventure.battle(adventure.boar);
+			}
+		else
+			{
+				System.out.println("That is not a valid response. Please enter 'left' or 'right'.");
+			}
+		}
+		
+		
+	}
+	
+
+}
