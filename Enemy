@@ -1,0 +1,56 @@
+
+public class Enemy {
+	private String name;
+	private int health;
+	private int attackPwr;
+	private int moneyGained;
+	
+	
+	public Enemy(String name, int health, int attackPwr, int moneyGained)
+	{
+		this.name = name;
+		this.health = health;
+		this.attackPwr = attackPwr;
+		this.moneyGained = moneyGained;		
+	}
+	
+	public String getName() 
+	{
+		return this.name;
+	}
+	
+	public void setName(String newName)
+	{
+		this.name = newName;
+	}
+	
+	public int getHealth()
+	{
+		return this.health;
+	}
+	
+	public void setHealth(int newHealth)
+	{
+		this.health = newHealth;
+	}
+	
+	public int getAttackPwr()
+	{
+		return this.attackPwr;
+	}
+	
+	public void setAttackPwr(int newAttackPwr)
+	{
+		this.attackPwr = newAttackPwr;
+	}
+	
+	public int getMoneyGained()
+	{
+		return this.moneyGained;
+	}
+	
+	public void setMoneyGained(int newMoney)
+	{
+		this.moneyGained = newMoney;
+	}
+}
